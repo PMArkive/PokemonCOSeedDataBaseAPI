@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonCOSeedDataBaseAPI", "CODBAPI\PokemonCOSeedDataBaseAPI.csproj", "{2449E7FB-80B7-40D2-9980-33E8E5570C03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonCOSeedDataBaseAPI", "PokemonCOSeedDataBaseAPI\PokemonCOSeedDataBaseAPI.csproj", "{2449E7FB-80B7-40D2-9980-33E8E5570C03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
