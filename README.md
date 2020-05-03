@@ -42,6 +42,3 @@ DBからseedを検索するためのクラス.
 |`public static SeedSearcher CreateFullDBSearcher(string)`| DBのパスを渡し, FullDBからseedを検索できるインスタンスを得る. |
 |`static SeedSearcher CreateLightDBSearcher(string)`| DBのパスを渡し, LightDBからseedを検索できるインスタンスを得る. |
 |`public IEnumerable<uint> Search((PlayerName, BattleTeam)[])`| 7回分の連続したとにかくバトル(シングル, 最強)の生成結果から, 現在のseed候補を検索します. 引数の長さが7以外の場合は例外を投げます. |
-
-# 3. 今後の展望
-- LightDBの検索処理が「一度ファイルの中身をListに読み込んでから.BinarySearch()を叩く」という非効率なものなので, FullDBに比べて10倍ほど処理が遅い. ファイル上で二分探索をするコードに書き換えたい.
