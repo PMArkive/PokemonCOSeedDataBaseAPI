@@ -38,7 +38,7 @@ DBからseedを検索するためのクラス.
 ### 2.1.1. 公開フィールド
 |シグネチャ|説明|
 |:-|:-|
-|`public const int SpecifiedNumberOfKey`|`Search()`に渡すべきKeyの要素数.|
+|`public readonly int SpecifiedNumberOfKey`|`Search()`に渡すべきKeyの要素数.|
 
 ### 2.1.2. 公開メソッド
 |シグネチャ|説明|

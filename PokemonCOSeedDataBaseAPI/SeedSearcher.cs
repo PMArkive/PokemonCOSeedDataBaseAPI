@@ -8,7 +8,7 @@ namespace PokemonCOSeedDataBaseAPI
     public abstract class SeedSearcher
     {
         protected readonly string PATH;
-        public const int SpecifiedNumberOfKey = 7;
+        public readonly int SpecifiedNumberOfKey = 7;
         internal SeedSearcher(string path) { PATH = path; }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace PokemonCOSeedDataBaseAPI
     class LightDBSearcher : SeedSearcher
     {
         internal LightDBSearcher(string path) : base(path) { }
-        public new const int SpecifiedNumberOfKey = 8;
+        public new readonly int SpecifiedNumberOfKey = 8;
         public override IEnumerable<uint> Search((PlayerName playerNameIndex, BattleTeam teamIndex)[] keys)
         {
             if (keys.Length != SpecifiedNumberOfKey) throw new Exception($"Number of search keys must be {SpecifiedNumberOfKey}.");
