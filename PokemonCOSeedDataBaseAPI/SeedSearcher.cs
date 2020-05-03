@@ -8,6 +8,7 @@ namespace PokemonCOSeedDataBaseAPI
     public abstract class SeedSearcher
     {
         protected readonly string PATH;
+        public const int SpecifiedNumberOfKey = 7;
         internal SeedSearcher(string path) { PATH = path; }
 
         /// <summary>
@@ -209,14 +210,15 @@ namespace PokemonCOSeedDataBaseAPI
     class LightDBSearcher : SeedSearcher
     {
         internal LightDBSearcher(string path) : base(path) { }
+        public new const int SpecifiedNumberOfKey = 8;
         public override IEnumerable<uint> Search((PlayerName playerNameIndex, BattleTeam teamIndex)[] keys)
         {
-            if (keys.Length != 7) throw new Exception("Number of search keys must be 7.");
+            if (keys.Length != 8) throw new Exception("Number of search keys must be 8.");
 
             var codedKeys = keys.Select(_ => (uint)_.playerNameIndex * 8 + (uint)_.teamIndex).ToArray();
 
-            uint fileKey = codedKeys[0] + codedKeys[1] * 24;
-            uint seedKey = codedKeys[2] + codedKeys[3] * 24 + codedKeys[4] * 24 * 24 + codedKeys[5] * 24 * 24 * 24 + codedKeys[6] * 24 * 24 * 24 * 24;
+            uint fileKey = codedKeys[1] + codedKeys[2] * 24;
+            uint seedKey = codedKeys[3] + codedKeys[4] * 24 + codedKeys[5] * 24 * 24 + codedKeys[6] * 24 * 24 * 24 + codedKeys[7] * 24 * 24 * 24 * 24;
 
             string fileName = PATH + $"{fileKey}.bin";
 
