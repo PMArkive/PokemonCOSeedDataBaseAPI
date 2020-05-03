@@ -35,8 +35,12 @@
 ### 2.1.0. 説明
 DBからseedを検索するためのクラス. 
 コンストラクタは非公開なので, インスタンスを得る場合は後述のCreateXXXメソッドを利用すること.
+### 2.1.1. 公開フィールド
+|シグネチャ|説明|
+|:-|:-|
+|`public const int SpecifiedNumberOfKey`|`Search()`に渡すべきKeyの要素数.|
 
-### 2.1.1. 公開メソッド
+### 2.1.2. 公開メソッド
 |シグネチャ|説明|
 |:-|:-|
 |`public static SeedSearcher CreateFullDBSearcher(string)`| DBのパスを渡し, FullDBからseedを検索できるインスタンスを得る. |
