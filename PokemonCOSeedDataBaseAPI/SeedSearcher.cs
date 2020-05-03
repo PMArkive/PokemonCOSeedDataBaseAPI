@@ -44,7 +44,7 @@ namespace PokemonCOSeedDataBaseAPI
 
         public override IEnumerable<uint> Search((PlayerName playerNameIndex, BattleTeam teamIndex)[] keys)
         {
-            if (keys.Length != 7) throw new Exception("Number of search keys must be 7.");
+            if (keys.Length != SpecifiedNumberOfKey) throw new Exception($"Number of search keys must be {SpecifiedNumberOfKey}.");
 
             var codedKeys = keys.Select(_ => (uint)_.playerNameIndex * 8 + (uint)_.teamIndex).ToArray();
 
@@ -213,7 +213,7 @@ namespace PokemonCOSeedDataBaseAPI
         public new const int SpecifiedNumberOfKey = 8;
         public override IEnumerable<uint> Search((PlayerName playerNameIndex, BattleTeam teamIndex)[] keys)
         {
-            if (keys.Length != 8) throw new Exception("Number of search keys must be 8.");
+            if (keys.Length != SpecifiedNumberOfKey) throw new Exception($"Number of search keys must be {SpecifiedNumberOfKey}.");
 
             var codedKeys = keys.Select(_ => (uint)_.playerNameIndex * 8 + (uint)_.teamIndex).ToArray();
 
