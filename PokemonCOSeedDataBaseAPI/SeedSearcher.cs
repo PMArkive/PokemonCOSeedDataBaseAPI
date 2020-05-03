@@ -69,7 +69,7 @@ namespace PokemonCOSeedDataBaseAPI
                         var key = GenerateSeedKey(ref seed);
 
                         if (key < seedKey) break;
-                        if (key == seedKey) seedList.Add(seed);
+                        if (key == seedKey) seedList.Add(AdvanceWithGenerateCode(seed));
 
                         if (--index < 0) break;
                         fstream.Seek(index * 4, SeekOrigin.Begin);
@@ -219,15 +219,33 @@ namespace PokemonCOSeedDataBaseAPI
             uint seedKey = codedKeys[2] + codedKeys[3] * 24 + codedKeys[4] * 24 * 24 + codedKeys[5] * 24 * 24 * 24 + codedKeys[6] * 24 * 24 * 24 * 24;
 
             string fileName = PATH + $"{fileKey}.bin";
-            var dataBase = new List<(uint key, uint seed)>();
+
+            var seedList = new List<uint>();
             try
             {
-                using (var br = new BinaryReader(new FileStream(fileName, FileMode.Open)))
+                var fileinfo = new FileInfo(fileName);
+                var fileLength = fileinfo.Length;
+                var filesize = (int)(fileLength / (2 * sizeof(uint)));
+                using (var fstream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                using (var binaryReader = new BinaryReader(fstream))
                 {
-                    var bs = br.BaseStream;
-                    while (bs.Position != bs.Length)
+                    int left = -1, right = filesize;
+                    while (right - left > 1)
                     {
-                        dataBase.Add((br.ReadUInt32(), br.ReadUInt32()));
+                        var mid = (left + right) / 2;
+                        fstream.Seek(mid * 8, SeekOrigin.Begin);
+
+                        var key = binaryReader.ReadUInt32();
+                        if (key >= seedKey) right = mid; else left = mid;
+                    }
+                    if (right == left) yield break;
+
+                    fstream.Seek(right * 8, SeekOrigin.Begin);
+                    while(fstream.Position < fileLength)
+                    {
+                        var key = binaryReader.ReadUInt32();
+                        if (key != seedKey) break;
+                        seedList.Add(binaryReader.ReadUInt32());
                     }
                 }
             }
@@ -236,11 +254,7 @@ namespace PokemonCOSeedDataBaseAPI
                 throw new Exception($"Failed to load file.{Environment.NewLine}{ex.Message}");
             }
 
-            var idx = dataBase.Select(_ => _.key).ToList().BinarySearch(seedKey);
-            if (idx < 0) yield break;
-
-            for (int i = idx; dataBase[i].key == seedKey && i >= 0; i--) yield return dataBase[i].seed;
-            for (int i = idx + 1; dataBase[i].key == seedKey && i < dataBase.Count; i++) yield return dataBase[i].seed;
+            foreach (var seed in seedList) yield return seed;
         }
     }
 }
