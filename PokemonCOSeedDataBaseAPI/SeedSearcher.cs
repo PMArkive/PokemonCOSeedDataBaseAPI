@@ -103,49 +103,47 @@ namespace PokemonCOSeedDataBaseAPI
             uint[] codes = new uint[5];
             for (int k = 0; k < 5; k++)
             {
-                uint EnemyTeamIndex = seed.GetRand(8);
-                uint PlayerTeamIndex;
-                do { PlayerTeamIndex = seed.GetRand(8); } while (EnemyTeamIndex == PlayerTeamIndex);
+                var enemyTeamIndex = seed.GetRand() & 0x7;
+                uint playerTeamIndex;
+                do { playerTeamIndex = seed.GetRand() & 0x7; } while (enemyTeamIndex == playerTeamIndex);
 
-                uint EnemyTSV = seed.GetRand() ^ seed.GetRand();
-                var EnemyParty = BattleTeamUltimate.UltimateTeams[EnemyTeamIndex];
-                for (int i = 0; i < 6; i++)
+                var enemyTSV = seed.GetRand() ^ seed.GetRand();
+                foreach(var poke in BattleTeamUltimate.UltimateTeams[enemyTeamIndex])
                 {
                     seed.Advance5();
                     while (true)
                     {
-                        uint HID = seed.GetRand();
-                        uint LID = seed.GetRand();
-                        uint PID = (HID << 16) | LID;
-                        if (GetGender(PID, EnemyParty[i].GenderRatio) != EnemyParty[i].fixedGender) continue;
-                        if (PID % 25 != (uint)EnemyParty[i].fixedNature) continue;
-                        if ((LID ^ HID ^ EnemyTSV) < 8) continue;
+                        var HID = seed.GetRand();
+                        var LID = seed.GetRand();
+                        var PID = (HID << 16) | LID;
+                        if (GetGender(PID, poke.GenderRatio) != poke.fixedGender) continue;
+                        if (PID % 25 != (uint)poke.fixedNature) continue;
+                        if ((LID ^ HID ^ enemyTSV) < 8) continue;
 
                         break;
                     }
                 }
 
-                uint PlayerNameIndex = seed.GetRand(3);
+                var playerNameIndex = seed.GetRand(3);
 
-                uint PlayerTSV = seed.GetRand() ^ seed.GetRand();
-                var PlayerParty = BattleTeamUltimate.UltimateTeams[PlayerTeamIndex];
-                for (int i = 0; i < 6; i++)
+                var playerTSV = seed.GetRand() ^ seed.GetRand();
+                foreach (var poke in BattleTeamUltimate.UltimateTeams[playerTeamIndex])
                 {
                     seed.Advance5();
                     while (true)
                     {
-                        uint HID = seed.GetRand();
-                        uint LID = seed.GetRand();
-                        uint PID = (HID << 16) | LID;
-                        if (GetGender(PID, PlayerParty[i].GenderRatio) != PlayerParty[i].fixedGender) continue;
-                        if (PID % 25 != (uint)PlayerParty[i].fixedNature) continue;
-                        if ((LID ^ HID ^ PlayerTSV) < 8) continue;
+                        var HID = seed.GetRand();
+                        var LID = seed.GetRand();
+                        var PID = (HID << 16) | LID;
+                        if (GetGender(PID, poke.GenderRatio) != poke.fixedGender) continue;
+                        if (PID % 25 != (uint)poke.fixedNature) continue;
+                        if ((LID ^ HID ^ playerTSV) < 8) continue;
 
                         break;
                     }
                 }
 
-                codes[k] = PlayerNameIndex * 8 + PlayerTeamIndex;
+                codes[k] = playerNameIndex * 8 + playerTeamIndex;
             }
 
             return codes[4] + codes[3] * 24 + codes[2] * 24 * 24 + codes[1] * 24 * 24 * 24 + codes[0] * 24 * 24 * 24 * 24;
@@ -155,43 +153,42 @@ namespace PokemonCOSeedDataBaseAPI
         {
             for (int k = 0; k < 2; k++)
             {
-                uint EnemyTeamIndex = seed.GetRand(8);
-                uint PlayerTeamIndex;
-                do { PlayerTeamIndex = seed.GetRand(8); } while (EnemyTeamIndex == PlayerTeamIndex);
+                var enemyTeamIndex = seed.GetRand() & 0x7;
+                uint playerTeamIndex;
+                do { playerTeamIndex = seed.GetRand() & 0x7; } while (enemyTeamIndex == playerTeamIndex);
 
-                uint EnemyTSV = seed.GetRand() ^ seed.GetRand();
-                var EnemyParty = BattleTeamUltimate.UltimateTeams[EnemyTeamIndex];
-                for (int i = 0; i < 6; i++)
+                var enemyTSV = seed.GetRand() ^ seed.GetRand();
+                foreach (var poke in BattleTeamUltimate.UltimateTeams[enemyTeamIndex])
                 {
                     seed.Advance5();
                     while (true)
                     {
-                        uint HID = seed.GetRand();
-                        uint LID = seed.GetRand();
-                        uint PID = (HID << 16) | LID;
-                        if (GetGender(PID, EnemyParty[i].GenderRatio) != EnemyParty[i].fixedGender) continue;
-                        if (PID % 25 != (uint)EnemyParty[i].fixedNature) continue;
-                        if ((LID ^ HID ^ EnemyTSV) < 8) continue;
+                        var HID = seed.GetRand();
+                        var LID = seed.GetRand();
+                        var PID = (HID << 16) | LID;
+                        if (GetGender(PID, poke.GenderRatio) != poke.fixedGender) continue;
+                        if (PID % 25 != (uint)poke.fixedNature) continue;
+                        if ((LID ^ HID ^ enemyTSV) < 8) continue;
 
                         break;
                     }
                 }
 
+
                 seed.Advance();
 
-                uint PlayerTSV = seed.GetRand() ^ seed.GetRand();
-                var PlayerParty = BattleTeamUltimate.UltimateTeams[PlayerTeamIndex];
-                for (int i = 0; i < 6; i++)
+                var playerTSV = seed.GetRand() ^ seed.GetRand();
+                foreach (var poke in BattleTeamUltimate.UltimateTeams[playerTeamIndex])
                 {
                     seed.Advance5();
                     while (true)
                     {
-                        uint HID = seed.GetRand();
-                        uint LID = seed.GetRand();
-                        uint PID = (HID << 16) | LID;
-                        if (GetGender(PID, PlayerParty[i].GenderRatio) != PlayerParty[i].fixedGender) continue;
-                        if (PID % 25 != (uint)PlayerParty[i].fixedNature) continue;
-                        if ((LID ^ HID ^ PlayerTSV) < 8) continue;
+                        var HID = seed.GetRand();
+                        var LID = seed.GetRand();
+                        var PID = (HID << 16) | LID;
+                        if (GetGender(PID, poke.GenderRatio) != poke.fixedGender) continue;
+                        if (PID % 25 != (uint)poke.fixedNature) continue;
+                        if ((LID ^ HID ^ playerTSV) < 8) continue;
 
                         break;
                     }
@@ -243,7 +240,7 @@ namespace PokemonCOSeedDataBaseAPI
                     if (right == left) yield break;
 
                     fstream.Seek(right * 8, SeekOrigin.Begin);
-                    while(fstream.Position < fileLength)
+                    while (fstream.Position < fileLength)
                     {
                         var key = binaryReader.ReadUInt32();
                         if (key != seedKey) break;
